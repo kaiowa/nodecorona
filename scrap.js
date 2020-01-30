@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs=require('fs');
 require('dotenv').config();
-
+var datetime = require('node-datetime');
 var db=require('./backend/database');
 
 var NodeGeocoder = require('node-geocoder');
@@ -44,6 +44,9 @@ var geocoder = NodeGeocoder(options);
   async function parseResults(){
     fs.readFile('./db/scrap.json', (err, data) => {
       let datos=JSON.parse(data);
+      let totalConfirmed=0;
+      let totalDeaths=0;
+      db.updateEntry('cities',[]);
       datos.textos.forEach(function(item){
       
         var itemCut=item.split('\n\n');
@@ -52,14 +55,17 @@ var geocoder = NodeGeocoder(options);
         let datos=itemCut[1];
         let tempD=datos.split('; ');
         
-        let confirmed=tempD[0].replace('Confirmed: ','').replace(',','.');
-        let deaths=(tempD[1].replace('Deaths:','')==='') ? '0' : tempD[1].replace('Deaths:','');
+        let confirmed=tempD[0].replace('Confirmed:','').replace(',','.').trim();
+        let deaths=(tempD[1].replace('Deaths:','')==='') ? '0' : tempD[1].replace('Deaths:','').trim();
         
+        totalConfirmed = parseFloat(totalConfirmed)+parseFloat(confirmed);
+        totalDeaths =parseFloat(totalDeaths)+parseFloat(deaths);
+
         geocoder.geocode(city.split(' (')[0], function(err, res) {
           let city={
             'name':itemCut[0],
-            'confirmed':confirmed,
-            'deaths':deaths,
+            'confirmed':parseFloat(confirmed),
+            'deaths':parseFloat(deaths),
             "formattedAddress":res[0].formattedAddress,
             "latitude": res[0].latitude,
             "longitude": res[0].longitude,
@@ -67,17 +73,22 @@ var geocoder = NodeGeocoder(options);
             "countryCode": res[0].countryCode,
           }
           db.addEntry('cities',city);
+ 
          });
   
       });
+
+      console.log('TotalConfirmed:'+totalConfirmed);
+      console.log('TotalDeaths:'+totalDeaths);
+      let dt = datetime.create();
+      let dateUpdate= dt.format('Y/m/d H:M:S');
+      db.updateEntry('updated',dateUpdate);
 
     });
    
   }
  
- 
-
   await crawURL(process.env.URLSCRAP);
-   await parseResults();
+  await parseResults();
 
 })()

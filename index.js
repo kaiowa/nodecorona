@@ -21,7 +21,6 @@ app.use('/api',api);
 
 app.get('/',function(req,res){
   res.render('corona');
-
 });
 
 var server=app.listen(5000,function(){

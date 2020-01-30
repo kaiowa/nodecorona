@@ -282,11 +282,25 @@ form textarea {
   font-weight: 700;
   font-style: normal;
   src: url("../fonts/Museo700-Regular.otf"); }
-/*
+.button .number{
+  font-size: 30px;
+  margin: 20px;
+}
+.last-update{
+  margin-top: 5px;
+}
+.map{
+  width:100%;
+  min-height:500px;
+  background-color:black
+}
+  /*
  * Reusable Components Style
  */
 .button, form input[type="submit"], form button, form input[type="reset"] {
   display: inline-block;
+  margin:25px;
+  padding-top: 20px;
   background-image: -webkit-linear-gradient(#4d4552, #3e3742);
   background-image: linear-gradient(#4d4552, #3e3742);
   padding: 8px 25px;
