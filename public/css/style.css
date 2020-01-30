@@ -266,22 +266,22 @@ form textarea {
   font-family: "Deftone Stylus";
   font-weight: normal;
   font-style: normal;
-  src: url("fonts/deftone.ttf") format("truetype"); }
+  src: url("../fonts/deftone.ttf") format("truetype"); }
 @font-face {
   font-family: "Museo";
   font-weight: 300;
   font-style: normal;
-  src: url("fonts/Museo300-Regular.otf"); }
+  src: url("../fonts/Museo300-Regular.otf"); }
 @font-face {
   font-family: "Museo";
   font-weight: 500;
   font-style: normal;
-  src: url("fonts/Museo500-Regular.otf"); }
+  src: url("../fonts/Museo500-Regular.otf"); }
 @font-face {
   font-family: "Museo";
   font-weight: 700;
   font-style: normal;
-  src: url("fonts/Museo700-Regular.otf"); }
+  src: url("../fonts/Museo700-Regular.otf"); }
 /*
  * Reusable Components Style
  */
