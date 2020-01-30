@@ -1,14 +1,15 @@
 doctype html
 html
     head
-        meta(content='width=device-width, initial-scale=1')
-        title= title
-        link(rel='stylesheet', href='/styles/style.css')
-       
+        meta(content='width=device-width, initial-scale=1.0, maximum-scale=1')
+        meta(charset='UTF-8')
+        meta(http-equiv='X-UA-Compatible' content='IE=edge') 	
+        title=title
+        link(rel='stylesheet', href='/css/style.css')
     body
-        script(src='/js/common.js')
-        script(src='/js/vendors/underscore-min.js')
-        div(id='drawerIndicatorOverlay', class='overlay')
-        div(id='sidenavBlocker' class='sidenavigation_blocker_overlay')
-        div(class='sidenavigation')
-          prueba de templateeeee
+        div(class='site-content')
+            header(class='site-header')
+                div(class='container shrinked') pruebaaa
+            main(class="main-content")
+                div(class="container shrinked")
+                    div(class="map" id="mapa" style="width:100%;min-height:500px;background-color:black")
