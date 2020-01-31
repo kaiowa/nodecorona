@@ -11,9 +11,12 @@ $(document).ready(()=>{
     ],
     view: new ol.View({
       center: ol.proj.fromLonLat([37.41, 8.82]),
-      zoom: 4
+      zoom: 1
     })
   });
+  debugger;
+
+
 
   $.get('/api/data').then((datos)=>{
     
@@ -24,30 +27,40 @@ $(document).ready(()=>{
     $('.last-update').html(datos.updated);
     let totalConfirmed=0;
     let totalDeaths=0;
+
+    var features = [];
+
     _.forEach(datos.cities,(item)=>{
       totalConfirmed += item.confirmed
       totalDeaths += item.deaths
 
       var latitude=item.longitude;
       var longitude=item.latitude;
-
-
+     
+      
+      var iconFeature1 = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.transform([latitude, longitude], 'EPSG:4326',     
+        'EPSG:3857')),
+        name: 'Null Island Two',
+        population: 4001,
+        rainfall: 501
+      });
+      features.push(iconFeature1);
       var coords = [];
-      // var polygonBounds = new google.maps.LatLngBounds();
-      //  polygonBounds.extend(new google.maps.LatLng(longitude, latitude))
-
-      // var marker=new google.maps.Marker({
-      //   position: new google.maps.LatLng(longitude, latitude),
-      //   map: embeddedMap,
-      //   id:alert._id,
-      //   name:item.formattedAddress,
-      //   title:item.formattedAddress,
-      //   animation: google.maps.Animation.DROP
-      // });
-
+  
     });
     $('#total_confirmed').html(Math.ceil(totalConfirmed));
     $('#total_deaths').html(Math.ceil(totalDeaths));
-    embeddedMap.fitbounds();
+
+    var vectorSource = new ol.source.Vector({
+      features: features      //add an array of features
+      //,style: iconStyle     //to set the style for all your features...
+      });
+      
+      var vectorLayer = new ol.layer.Vector({
+          source: vectorSource
+      });
+      map.addLayer(vectorLayer)
+
   };
 });

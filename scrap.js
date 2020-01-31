@@ -20,17 +20,28 @@ var geocoder = NodeGeocoder(options);
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     await page.goto(url)
-    await page.waitForSelector('#ember61');
     await page.waitFor(5000);
-    await page.screenshot({path:'uno.png'});
-  
+    //await page.screenshot({path:'uno.png'});
     const result = await page.evaluate(() => {
-      
       let textos=[];
-      let divs=document.querySelectorAll('#ember61 .external-html');
-      divs.forEach(element => {
-        let entradaTexto=element.innerText.trim();
-        textos.push(entradaTexto);
+      let trs=document.querySelectorAll('#sheets-viewport > div:nth-child(1) > div > table > tbody > tr');
+      let conta=0;
+      trs.forEach(element =>{
+        if(conta>0){
+          let tds=element.querySelectorAll('td');
+          if(tds.length>0){
+            let entradaTexto={
+              'province':tds[0] ? tds[0].innerText.trim() : '',
+              'country':tds[1] ? tds[1].innerText.trim() :'',
+              'confirmed':tds[3] ? tds[3].innerText.trim(): '0',
+              'deaths':tds[4] ? tds[4].innerText.trim(): '0',
+              'recovered':tds[5]? tds[5].innerText.trim(): '0',
+            }
+            textos.push(entradaTexto);
+          }
+        }
+        conta++;
+
       });
       return{textos}
     });
@@ -46,49 +57,57 @@ var geocoder = NodeGeocoder(options);
       let datos=JSON.parse(data);
       let totalConfirmed=0;
       let totalDeaths=0;
+      let totalRecovered=0;
+
       db.updateEntry('cities',[]);
+      console.log('total:'+datos.textos.length);
+      console.log('---------------');
+      
       datos.textos.forEach(function(item){
       
-        var itemCut=item.split('\n\n');
-        
-        let city=itemCut[0];
-        let datos=itemCut[1];
-        let tempD=datos.split('; ');
-        
-        let confirmed=tempD[0].replace('Confirmed:','').replace(',','.').trim();
-        let deaths=(tempD[1].replace('Deaths:','')==='') ? '0' : tempD[1].replace('Deaths:','').trim();
-        
-        totalConfirmed = parseFloat(totalConfirmed)+parseFloat(confirmed);
-        totalDeaths =parseFloat(totalDeaths)+parseFloat(deaths);
+       let city=(item.province!='') ? item.province : item.country;
+       if(item.country){
+         city =city+'('+item.country+')';
+       }
+       console.log('city',city);
+       console.log('-----------------');
+       let confirmed=item.confirmed ? item.confirmed : 0;
+       let deaths=item.deaths ? item.deaths :0;
+       let recovered=item.recovered ? item.recovered : 0;
 
-        geocoder.geocode(city.split(' (')[0], function(err, res) {
-          let city={
-            'name':itemCut[0],
-            'confirmed':parseFloat(confirmed),
-            'deaths':parseFloat(deaths),
-            "formattedAddress":res[0].formattedAddress,
-            "latitude": res[0].latitude,
-            "longitude": res[0].longitude,
-            "country": res[0].country,
-            "countryCode": res[0].countryCode,
+        totalConfirmed = totalConfirmed+parseFloat(confirmed);
+        totalDeaths =totalDeaths+parseFloat(deaths);
+        totalRecovered=totalRecovered + parseFloat(recovered);
+        
+        geocoder.geocode(city, function(err, res) {
+          if(res){
+            let city={
+              'province':item.province,
+              'country':item.country,
+              'confirmed':parseFloat(confirmed),
+              'deaths':parseFloat(deaths),
+              'recovered':parseFloat(recovered),
+              "formattedAddress":res[0].formattedAddress,
+              "latitude": res[0].latitude,
+              "longitude": res[0].longitude,
+              "country": res[0].country,
+              "countryCode": res[0].countryCode,
+            }
+            db.addEntry('cities',city);
           }
-          db.addEntry('cities',city);
- 
          });
   
       });
-
       console.log('TotalConfirmed:'+totalConfirmed);
       console.log('TotalDeaths:'+totalDeaths);
+      console.log('TotalRecovered:'+totalRecovered);
+
       let dt = datetime.create();
       let dateUpdate= dt.format('Y/m/d H:M:S');
       db.updateEntry('updated',dateUpdate);
-
     });
-   
   }
- 
-  await crawURL(process.env.URLSCRAP);
+  await crawURL(process.env.URLSHEET);
   await parseResults();
 
 })()
