@@ -324,7 +324,16 @@ form textarea {
     outline: none; }
   .button:hover, form input[type="submit"]:hover, form button:hover, form input[type="reset"]:hover, .button:focus, form input[type="submit"]:focus, form button:focus, form input[type="reset"]:focus {
     background: #61d8ba; }
-
+.flag{
+  width:20px;
+  height: 20px;
+  float: left;
+  margin-right:5px;
+}
+.row-entry{
+  margin-bottom: 5px;
+  display: flex;
+}
 .container {
   margin-right: auto;
   margin-left: auto;
@@ -1174,7 +1183,7 @@ form textarea {
  */
 .site-header {
   text-align: center;
-  padding: 80px 0; }
+  padding: 40px 0; }
   @media screen and (max-width: 600px) {
     .site-header a.button {
       font-size: 14px;

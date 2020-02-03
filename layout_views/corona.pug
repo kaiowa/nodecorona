@@ -10,6 +10,7 @@ html
         link(rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css")
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
         script(src="https://underscorejs.org/underscore-min.js")
+        script(src="js/rowTemplate.js")
         script(src='js/base.js')
     body
         div(class='site-content')
@@ -17,11 +18,14 @@ html
                 div(class='container shrinked') 
                     div(class='button') Confirmed
                        div(class="number" id="total_confirmed") 0
-                    div(class='button') Total
+                    div(class='button') Deaths
                        div(class="number" id="total_deaths") 0
+                    div(class='button') Recovered
+                       div(class="number" id="total_recovered") 0
                     div(class='last-update-name') Last Update: 
                        div(class='last-update')
             main(class="main-content")
                 div(class="container shrinked")
-                    div(class="map" id="map" style="height:300px")
+                    div(class="map" id="map" style="height:300px;display:none")
                     div(class="results" id="results")
+            footer(class="site-footer")

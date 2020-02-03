@@ -105,9 +105,18 @@ var geocoder = NodeGeocoder(options);
       let dt = datetime.create();
       let dateUpdate= dt.format('Y/m/d H:M:S');
       db.updateEntry('updated',dateUpdate);
+
+      db.updateEntry('previous',db.readAll('totals'));
+      let cTotals={
+        'confirmed':totalConfirmed,
+        'death':totalDeaths,
+        'recovered':totalRecovered
+      }
+      db.updateEntry('totals',cTotals);
+
     });
   }
-  await crawURL(process.env.URLSHEET);
+  //await crawURL(process.env.URLSHEET);
   await parseResults();
 
 })()

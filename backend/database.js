@@ -2,7 +2,7 @@ const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('./db/db.json');
 const db = low(adapter);
-db.defaults({ cities: [], history: {}, previous:{ "confirmed":0,"deaths":0 } ,updated:""}).write();
+db.defaults({ cities: [], totals: {}, previous:{ } ,updated:""}).write();
  
 function readAll(tableName){
   return db.get(tableName);
