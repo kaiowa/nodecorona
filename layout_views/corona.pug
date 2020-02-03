@@ -6,8 +6,9 @@ html
         meta(http-equiv='X-UA-Compatible' content='IE=edge') 	
         title=title
         link(rel='stylesheet', href='/css/style.css')
-        script(src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js")
-        link(rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css")
+        script(src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js')
+        linke(href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet')
+        
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
         script(src="https://underscorejs.org/underscore-min.js")
         script(src="js/rowTemplate.js")
@@ -26,6 +27,6 @@ html
                        div(class='last-update')
             main(class="main-content")
                 div(class="container shrinked")
-                    div(class="map" id="map" style="height:300px;display:none")
+                    div(class="map" id="map" style="height:300px;")
                     div(class="results" id="results")
             footer(class="site-footer")

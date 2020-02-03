@@ -292,7 +292,8 @@ form textarea {
 .map{
   width:100%;
   min-height:500px;
-  background-color:black
+  background-color:black;
+  overflow: hidden;
 }
   /*
  * Reusable Components Style
@@ -1029,6 +1030,19 @@ form textarea {
 .visible-lg-inline-block {
   display: none !important; }
 
+  .coordinates {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    padding: 5px 10px;
+    margin: 0;
+    font-size: 11px;
+    line-height: 18px;
+    border-radius: 3px;
+    display: none;
+    }
 @media (max-width: 767px) {
   .visible-xs {
     display: block !important; }

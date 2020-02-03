@@ -2,22 +2,25 @@ $(document).ready(()=>{
   console.log('readdddd');
   var embeddedMap;
 
-  // var map = new ol.Map({
-  //   target: 'map',
-  //   layers: [
-  //     new ol.layer.Tile({
-  //       source: new ol.source.OSM()
-  //     })
-  //   ],
-  //   view: new ol.View({
-  //     center: ol.proj.fromLonLat([37.41, 8.82]),
-  //     zoom: 1
-  //   })
-  // });
+  function loadMap(){
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia2Fpb3dhIiwiYSI6ImNrNjZjcTkyaTA3NzgzZXFxdW1zZXBnbXAifQ.gavZkTNZ2hz_8LUtRar2cQ';
+    var coordinates = document.getElementById('coordinates');
+    embeddedMap = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/satellite-v9',
+    center: [0, 0],
+    zoom: 1
+    });
+
+  }
+  loadMap();
+
   
   $.get('/api/data').then((datos)=>{
+    setTimeout(function(){
+      parseData(datos);
+    },2000);
     
-    parseData(datos);
   });
   function parseData(datos){
     console.log('parseee ',datos)
@@ -29,35 +32,34 @@ $(document).ready(()=>{
     var features = [];
     let cities=datos.cities;
    // cities=_.sortBy(cities,'confirmed').reverse();
+    let sortedCities = _.sortBy(cities, 'confirmed');
+    sortedCities.reverse();
+    console.log('shorted',sortedCities);
 
-    _.forEach(cities,(item)=>{
+    _.forEach(sortedCities,(item)=>{
      
       var latitude=item.longitude;
       var longitude=item.latitude;
-      
-      // var iconFeature1 = new ol.Feature({
-      //   geometry: new ol.geom.Point(ol.proj.transform([latitude, longitude], 'EPSG:4326',     
-      //   'EPSG:3857')),
-      //   name: 'Null Island Two',
-      //   population: 4001,
-      //   rainfall: 501
-      // });
-      // features.push(iconFeature1);
+      if(!item.countryCode){
+        item.countryCode='AU';
+      }
+      item.country=item.country ? item.country :'';
       var coords = [];
-  
-      let row=_.template(templateRow(item));
-      $('.results').append(row);
+
+      var marker = new mapboxgl.Marker({
+        draggable: false
+        })
+        .setLngLat([parseFloat(latitude),parseFloat(longitude)])
+        .addTo(embeddedMap);
+      try {
+        let row=_.template(templateRow(item));
+        $('.results').append(row);  
+      } catch (error) {
+        console.error(error)
+      }
       
     });
 
-    // var vectorSource = new ol.source.Vector({
-    //   features: features      //add an array of features
-    // });
-    // var vectorLayer = new ol.layer.Vector({
-    //       source: vectorSource
-    // });
-    // map.addLayer(vectorLayer)
   };
 
-  
 });
