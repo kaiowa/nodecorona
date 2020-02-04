@@ -27,8 +27,9 @@ $(document).ready(()=>{
       var total=0;   
       var totaldeaths=0;
       var totalrecovery=0;
+      console.log(item);
 
-      _.map(item,function(item2){
+      _.map(item,(item2)=>{
         total=total+item2.confirmed;
         totaldeaths=totaldeaths+item2.deaths;
         totalrecovery=totalrecovery+item2.recovered
@@ -38,15 +39,31 @@ $(document).ready(()=>{
         'name':key,
         'confirmed':total,
         'deaths':totaldeaths,
-        'recovered':totalrecovery
+        'recovered':totalrecovery,
+        'countryCode':item[0].countryCode
       }
       countries.push(country);
     });
     countries=_.filter(countries,function(item){
       return item.name!='undefined'
-    })
+    });
+    _.forEach(countries,(item,index)=>{
+      if(index<10){
+        let itemC={
+          'province':'',
+          'country':item.name,
+          'countryCode':item.countryCode,
+          'confirmed':item.confirmed,
+          'deaths':item.deaths,
+          'recovered':item.recovered
+        }
+        let row=_.template(templateRow(itemC));
+        $('#results_countries').append(row);  
+      }
+    });
+    console.log('countries',countries);
   }
-  
+
   function parseData(datos){
     console.log('parseee ',datos)
     $('.last-update').html(datos.updated);

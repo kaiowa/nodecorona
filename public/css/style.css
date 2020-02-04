@@ -355,9 +355,29 @@ form textarea {
       width: 970px; } }
   @media (min-width: 1200px) {
     .container {
-      width: 1170px; } }
-
-.container-fluid {
+      width: 1170px; }
+  }
+  .results_provinces:after{
+    content: " ";
+    position: relative;
+    border: 1px solid ;
+    width:1px;
+    height: 100%;
+    right: 0px;
+  }
+  .results_contents{
+    display: flex;
+  }
+  .results_countries{
+    flex: 1;
+  }
+  .title{
+    width: 100%;
+    margin: 10px auto;
+    display: block;
+    text-align: center;
+  }
+ .container-fluid {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
@@ -368,7 +388,8 @@ form textarea {
     clear: both;
     display: block;
     overflow: hidden;
-    height: 0; }
+    height: 0; 
+  }
 
 .row {
   margin-left: -15px;
