@@ -4,9 +4,11 @@ var express=require('express'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   session = require('express-session'),
-  api=require('./backend/api');
-  
-  
+  api=require('./backend/api'),
+  schedule = require('node-schedule');
+
+  var  Scrap=require('./scrap');
+
 var app=new express();
 app.use(cookieParser());
 app.use(session({ resave:true,saveUninitialized:true,secret: 'wotofack!&7U', cookie: {maxAge: 365 * 24 * 60 * 60 * 1000} }));
@@ -25,4 +27,8 @@ app.get('/',function(req,res){
 
 var server=app.listen(5000,function(){
   console.log('server running in 5000');
+});
+
+var cronUser = schedule.scheduleJob(process.env.CRONTIME, function(){
+  Scrap.crawURL();
 });

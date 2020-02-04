@@ -12,7 +12,6 @@ function addEntry(tableName,data){
   .push(data)
   .write();
 }
-
 function updateEntry(tableName,value){
   return db.set(tableName, value)
   .write()

@@ -14,12 +14,11 @@ var options = {
 var geocoder = NodeGeocoder(options);
 
 
-(async () => {
 
-  async function crawURL(url){
+  async function crawURL(){
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
-    await page.goto(url)
+    await page.goto(process.env.URLSCRAP)
     await page.waitFor(5000);
     //await page.screenshot({path:'uno.png'});
     const result = await page.evaluate(() => {
@@ -49,6 +48,8 @@ var geocoder = NodeGeocoder(options);
     console.log('### Crawl complete ###');
     
     fs.writeFileSync('./db/scrap.json', JSON.stringify(result));
+    parseResults();
+    
     return result;
 }
  
@@ -69,8 +70,6 @@ var geocoder = NodeGeocoder(options);
        if(item.country){
          city =city+'('+item.country+')';
        }
-       console.log('city',city);
-       console.log('-----------------');
        let confirmed=item.confirmed ? item.confirmed : 0;
        let deaths=item.deaths ? item.deaths :0;
        let recovered=item.recovered ? item.recovered : 0;
@@ -117,14 +116,10 @@ var geocoder = NodeGeocoder(options);
     });
   }
 
-
-  await crawURL(process.env.URLSHEET);
-  await parseResults();
-
-  async function crawHistory(url){
+  async function crawHistory(){
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
-    await page.goto(url)
+    await page.goto(process.env.URLSCRAP)
     await page.waitFor(5000);
     //await page.screenshot({path:'uno.png'});
     const result = await page.evaluate(() => {
@@ -157,6 +152,5 @@ var geocoder = NodeGeocoder(options);
     fs.writeFileSync('./db/scrap_history.json', JSON.stringify(result));
     return result;
 }
-  //await crawHistory(process.env.URLSHEET)
-
-})()
+ 
+module.exports = {crawURL,crawHistory};

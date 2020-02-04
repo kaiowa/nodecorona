@@ -1,2 +1,3 @@
 # nodecorona
-app to follow corona 
+node+express sample app to follow corona status
+
