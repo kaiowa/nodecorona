@@ -4,9 +4,8 @@ const historic=require('../db/scrap_history.json');
 var _ = require('underscore');
 router.get('/data',function(req,res,next){
   
-  let cities=db.readAll('cities');
+  let cities=db.readAll('cities').sortBy('confirmed').reverse();
   let update=db.readAll('updated');
-  
   
   let results={
     cities:cities,
@@ -29,12 +28,14 @@ router.get('/data/:province',function(req,res,next){
 
 });
 
-router.get('/data/top',function(req,res,next){
+router.get('/datatop',function(req,res,next){
+  console.log('toooopppp');
 
-  let cities=db.readAll('cities');
-  console.log(cities);
+  let cities=db.readAll('cities').sortBy('confirmed');
 
-  return res.json(cities);
+  
+
+  return res.json(cities.reverse());
 
 
   // let entries=historic.textos;

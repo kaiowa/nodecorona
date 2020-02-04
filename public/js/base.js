@@ -29,14 +29,9 @@ $(document).ready(()=>{
     $('#total_deaths').html(datos.totals.death);
     $('#total_recovered').html(datos.totals.recovered);
 
-    var features = [];
     let cities=datos.cities;
-   // cities=_.sortBy(cities,'confirmed').reverse();
-    let sortedCities = _.sortBy(cities, 'confirmed');
-    sortedCities.reverse();
-    console.log('shorted',sortedCities);
 
-    _.forEach(sortedCities,(item)=>{
+    _.forEach(cities,(item)=>{
      
       var latitude=item.longitude;
       var longitude=item.latitude;
