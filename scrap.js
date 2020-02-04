@@ -118,8 +118,8 @@ var geocoder = NodeGeocoder(options);
   }
 
 
-  //await crawURL(process.env.URLSHEET);
-  //await parseResults();
+  await crawURL(process.env.URLSHEET);
+  await parseResults();
 
   async function crawHistory(url){
     const browser = await puppeteer.launch()
@@ -157,6 +157,6 @@ var geocoder = NodeGeocoder(options);
     fs.writeFileSync('./db/scrap_history.json', JSON.stringify(result));
     return result;
 }
-  await crawHistory(process.env.URLSHEET)
+  //await crawHistory(process.env.URLSHEET)
 
 })()

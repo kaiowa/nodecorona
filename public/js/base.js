@@ -13,13 +13,40 @@ $(document).ready(()=>{
     });
 
   }
-  loadMap();
+  //loadMap();
 
   
   $.get('/api/data').then((datos)=>{
       parseData(datos);
   });
 
+  function extractCountries(cities){
+    let countries=[];
+    var states=_.groupBy(cities,'country');
+    _.filter(states,function(item,key){
+      var total=0;   
+      var totaldeaths=0;
+      var totalrecovery=0;
+
+      _.map(item,function(item2){
+        total=total+item2.confirmed;
+        totaldeaths=totaldeaths+item2.deaths;
+        totalrecovery=totalrecovery+item2.recovered
+      });
+      item.total=total;
+      let country={
+        'name':key,
+        'confirmed':total,
+        'deaths':totaldeaths,
+        'recovered':totalrecovery
+      }
+      countries.push(country);
+    });
+    countries=_.filter(countries,function(item){
+      return item.name!='undefined'
+    })
+  }
+  
   function parseData(datos){
     console.log('parseee ',datos)
     $('.last-update').html(datos.updated);
@@ -28,7 +55,7 @@ $(document).ready(()=>{
     $('#total_recovered').html(datos.totals.recovered);
 
     let cities=datos.cities;
-
+    extractCountries(cities);
     _.forEach(cities,(item)=>{
      
       var latitude=item.longitude;
@@ -44,7 +71,7 @@ $(document).ready(()=>{
       //   })
       //   .setLngLat([parseFloat(latitude),parseFloat(longitude)])
       //   .addTo(embeddedMap);
-      
+
       try {
         let row=_.template(templateRow(item));
         $('.results').append(row);  

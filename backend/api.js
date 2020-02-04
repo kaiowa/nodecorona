@@ -6,7 +6,7 @@ router.get('/data',function(req,res,next){
   
   let cities=db.readAll('cities').sortBy('confirmed').reverse();
   let update=db.readAll('updated');
-  
+ 
   let results={
     cities:cities,
     updated:update,
@@ -33,10 +33,7 @@ router.get('/datatop',function(req,res,next){
 
   let cities=db.readAll('cities').sortBy('confirmed');
 
-  
-
   return res.json(cities.reverse());
-
 
   // let entries=historic.textos;
   // let provincia=req.params.province;
@@ -48,4 +45,5 @@ router.get('/datatop',function(req,res,next){
   // return res.json(entries);
 
 });
+
 module.exports=router;
