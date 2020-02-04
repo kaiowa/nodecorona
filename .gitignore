@@ -1,0 +1,11 @@
+.env
+.DS_Store
+node_modules
+package-lock.json
+yarn.lock
+cookies/*
+output/*
+db/scrap.json
+db/db.json
+downloads/*
+*.txt

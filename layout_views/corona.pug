@@ -1,0 +1,39 @@
+doctype html
+html
+    head
+        meta(content='width=device-width, initial-scale=1.0, maximum-scale=1')
+        meta(charset='UTF-8')
+        meta(http-equiv='X-UA-Compatible' content='IE=edge') 	
+        title=title
+        link(rel='stylesheet', href='/css/style.css')
+        script(src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js')
+        linke(href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet')
+        
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+        script(src="https://underscorejs.org/underscore-min.js")
+        script(src="https://d3js.org/d3.v5.min.js")
+        script(src="js/rowTemplate.js")
+        script(src='js/base.js')
+    body
+        div(class='site-content')
+            header(class='site-header')
+                div(class='container shrinked') 
+                    div(class='button') Confirmed
+                       div(class="number" id="total_confirmed") 0
+                    div(class='button') Deaths
+                       div(class="number" id="total_deaths") 0
+                    div(class='button') Recovered
+                       div(class="number" id="total_recovered") 0
+                    div(class='last-update-name') Last Update: 
+                       div(class='last-update')
+            main(class="main-content")
+                div(class="container shrinked")
+                    div(class="map" id="map" style="height:300px;style;display:none")
+                    div(class="results_contents")
+                        div(class="results_provincies" id="results_provinces")
+                            h3(class='title') Provinces 
+                            div(class='results' id='results')
+                        div(class="results_countries_container")
+                            h3(class='title') Top Countries
+                            div(class='results_countries' id='results_countries')
+            footer(class="site-footer")
