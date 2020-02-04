@@ -2,11 +2,10 @@
   "name": "nodecorona",
   "version": "1.0.0",
   "description": "app to follow corona",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "scrap": "node --experimental-modules scrap.js",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
