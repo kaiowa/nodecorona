@@ -17,11 +17,9 @@ $(document).ready(()=>{
 
   
   $.get('/api/data').then((datos)=>{
-    setTimeout(function(){
       parseData(datos);
-    },2000);
-    
   });
+
   function parseData(datos){
     console.log('parseee ',datos)
     $('.last-update').html(datos.updated);
@@ -41,11 +39,12 @@ $(document).ready(()=>{
       item.country=item.country ? item.country :'';
       var coords = [];
 
-      var marker = new mapboxgl.Marker({
-        draggable: false
-        })
-        .setLngLat([parseFloat(latitude),parseFloat(longitude)])
-        .addTo(embeddedMap);
+      // var marker = new mapboxgl.Marker({
+      //   draggable: false
+      //   })
+      //   .setLngLat([parseFloat(latitude),parseFloat(longitude)])
+      //   .addTo(embeddedMap);
+      
       try {
         let row=_.template(templateRow(item));
         $('.results').append(row);  
